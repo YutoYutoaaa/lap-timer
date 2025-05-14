@@ -4,7 +4,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>	Lap Timer ver.Ⅶ</title>
+  <title>	Lap Timer ver.Ⅲ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -15,6 +15,12 @@
       padding: 1.5rem;
       text-align: center;
     }
+
+html, body, button, video {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
 
     video {
       width: 100%;
@@ -84,7 +90,7 @@
   </style>
 </head>
 <body>
-  <h2>Lap Timer ver.Ⅶ</h2>
+  <h2>Lap Timer ver.Ⅲ</h2>
 
   <input type="file" id="fileInput" accept="video/*">
   <br><br>
@@ -261,6 +267,47 @@ function renderLaps() {
         video.currentTime = Math.max(0, video.currentTime - 0.05);
       }, 100);
     });
+
+let videoHoldTimeout = null;
+let videoHolding = false;
+
+video.addEventListener("click", () => {
+  if (!videoHolding) {
+    if (video.paused) {
+      video.playbackRate = 1.0;
+      video.play();
+    } else {
+      video.pause();
+    }
+  }
+});
+
+video.addEventListener("mousedown", () => {
+  videoHoldTimeout = setTimeout(() => {
+    videoHolding = true;
+    video.playbackRate = 0.3;
+    video.play();
+  }, 500);
+});
+
+video.addEventListener("touchstart", () => {
+  videoHoldTimeout = setTimeout(() => {
+    videoHolding = true;
+    video.playbackRate = 0.3;
+    video.play();
+  }, 500);
+});
+
+["mouseup", "mouseleave", "touchend"].forEach(event => {
+  video.addEventListener(event, () => {
+    clearTimeout(videoHoldTimeout);
+    if (videoHolding) {
+      video.pause();
+      videoHolding = false;
+    }
+  });
+});
+
     stepBackwardBtn.addEventListener("touchstart", () => {
       video.pause();
       reverseInterval = setInterval(() => {
