@@ -1,3 +1,5 @@
+入れ替え可能
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -187,13 +189,14 @@ function recordLap() {
 }
 
 function renderLaps() {
+  // 時間順に並び替える
   laps.sort((a, b) => a.time - b.time);
   lapsDiv.innerHTML = "";
 
   for (let i = 0; i < laps.length; i++) {
     const lap = laps[i];
-    const prevTime = i === 0 ? 0 : laps[i - 1].time;
-    const diff = (lap.time - prevTime).toFixed(2);
+    const prev = i === 0 ? 0 : laps[i - 1].time;
+    const diff = (lap.time - prev).toFixed(2);
     const timeFixed = lap.time.toFixed(2);
 
     const container = document.createElement("div");
@@ -202,12 +205,16 @@ function renderLaps() {
     const text = document.createElement("span");
     text.textContent = `Lap ${i + 1}   ${diff}   (${timeFixed}s)`;
 
- const delBtn = document.createElement("button");
-delBtn.textContent = "Delete";
-delBtn.onclick = () => {
-  laps = laps.filter(l => l.time !== lap.time); // ← 時間が一致するものを削除
-  renderLaps(); // ← 削除後に再描画
-};
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "Delete";
+    delBtn.onclick = () => {
+      // 一意の時間で削除
+      const index = laps.findIndex(l => l.time === lap.time);
+      if (index > -1) {
+        laps.splice(index, 1);  // ← spliceなら確実に1個だけ消える
+      }
+      renderLaps(); // 再描画
+    };
 
     container.appendChild(text);
     container.appendChild(delBtn);
