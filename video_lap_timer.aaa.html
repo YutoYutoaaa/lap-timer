@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Lap Timer ver.1 </title>
+  <title>Lap Timer Ⅰ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -202,12 +202,12 @@ function renderLaps() {
     const text = document.createElement("span");
     text.textContent = `Lap ${i + 1}   ${diff}   (${timeFixed}s)`;
 
-    const delBtn = document.createElement("button");
-    delBtn.textContent = "Delete";
-    delBtn.onclick = () => {
-      laps = laps.filter(l => l !== lap);
-      renderLaps(); // 削除後に再表示
-    };
+ const delBtn = document.createElement("button");
+delBtn.textContent = "Delete";
+delBtn.onclick = () => {
+  laps = laps.filter(l => l.time !== lap.time); // ← 時間が一致するものを削除
+  renderLaps(); // ← 削除後に再描画
+};
 
     container.appendChild(text);
     container.appendChild(delBtn);
