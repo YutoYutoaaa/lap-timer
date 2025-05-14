@@ -1,10 +1,10 @@
-ボタン挿入
+マイル処理
 
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>	Lap Timer ver.Ⅳ</title>
+  <title>	Lap Timer ver.Ⅲ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -84,7 +84,7 @@
   </style>
 </head>
 <body>
-  <h2>Lap Timer ver.Ⅳ</h2>
+  <h2>Lap Timer ver.Ⅲ</h2>
 
   <input type="file" id="fileInput" accept="video/*">
   <br><br>
@@ -111,6 +111,12 @@
 </div>
 
   <div id="laps"></div>
+
+<div style="max-width: 640px; margin: 1rem auto; text-align: center;">
+  <input type="number" id="inputTotalTime" placeholder="Total Time (秒)" style="padding: 0.4rem; font-size: 1rem; width: 200px;">
+</div>
+
+<div id="relayResult" style="max-width: 640px; margin: 1rem auto; text-align: left; white-space: pre-wrap; font-family: monospace; font-size: 0.95rem; background: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 1rem; display: none;"></div>
 
   <script>
     const video = document.getElementById("video");
@@ -267,6 +273,54 @@ function renderLaps() {
       });
     });
     stepBackwardBtn.addEventListener("click", stepBackward);
+
+document.getElementById("eventButton").onclick = () => {
+  const selected = document.getElementById("eventSelect").value;
+  if (selected === "4x400") {
+    showRelayResult400();
+  }
+};
+
+function showRelayResult400() {
+  const total = parseFloat(document.getElementById("inputTotalTime").value);
+  const resultDiv = document.getElementById("relayResult");
+  resultDiv.innerHTML = "";
+
+  if (isNaN(total) || laps.length < 10) {
+    resultDiv.style.display = "block";
+    resultDiv.textContent = "※ 合計タイムを入力し、ラップが10個あることを確認してください";
+    return;
+  }
+
+  const sorted = [...laps].sort((a, b) => a.time - b.time);
+  const output = [];
+
+  // 1走
+  const first = (sorted[0].time - sorted[9].time + total).toFixed(2);
+  output.push(`1走 ${first}s`);
+
+  // 2〜4走
+  for (let i = 0; i < 3; i++) {
+    const base = i * 3 + 1;
+    const t200 = sorted[base].time;
+    const t300 = sorted[base + 1].time;
+    const t400 = sorted[base + 2].time;
+
+    const totalLap = (t400 - t200 + t200).toFixed(2);
+    const first200 = (t200 - sorted[base - 1].time).toFixed(2);
+    const second200 = (t400 - t200).toFixed(2);
+    const sec200_300 = (t300 - t200).toFixed(2);
+    const sec300_400 = (t400 - t300).toFixed(2);
+
+    output.push(`${i + 2}走 ${totalLap}s`);
+    output.push(`　┗ 前半：${first200}s ／ 後半：${second200}s`);
+    output.push(`　┗ 200–300m：${sec200_300}s ／ 300–400m：${sec300_400}s`);
+  }
+
+  resultDiv.style.display = "block";
+  resultDiv.textContent = output.join("\n");
+}
+
   </script>
 <div id="instructions">
   <h3>使い方</h3>
