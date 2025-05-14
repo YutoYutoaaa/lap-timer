@@ -1,8 +1,10 @@
+マイル処理
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>	Lap Timer ver.Ⅵ</title>
+  <title>	Lap Timer ver.Ⅶ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -82,7 +84,7 @@
   </style>
 </head>
 <body>
-  <h2>Lap Timer ver.Ⅵ</h2>
+  <h2>Lap Timer ver.Ⅶ</h2>
 
   <input type="file" id="fileInput" accept="video/*">
   <br><br>
@@ -304,11 +306,11 @@ function showRelayResult400() {
     const t300 = sorted[base + 1].time;
     const t400 = sorted[base + 2].time;
 
-    const totalLap = (t400 - t200 + t200).toFixed(2);
-    const first200 = (t200 - sorted[base - 1].time).toFixed(2);
-    const second200 = (t400 - t200).toFixed(2);
-    const sec200_300 = (t300 - t200).toFixed(2);
-    const sec300_400 = (t400 - t300).toFixed(2);
+const totalLap = (t400 - sorted[base - 1].time).toFixed(2);
+const first200 = (t200 - sorted[base - 1].time).toFixed(2);
+const second200 = (t400 - t200).toFixed(2);
+const sec200_300 = (t300 - t200).toFixed(2);
+const sec300_400 = (t400 - t300).toFixed(2);
 
     output.push(`${i + 2}走 ${totalLap}s`);
     output.push(`　┗ 前半：${first200}s ／ 後半：${second200}s`);
