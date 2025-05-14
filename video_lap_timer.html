@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Lap Timer</title>
+  <title>	Lap Timer ver.Ⅲ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -82,7 +82,7 @@
   </style>
 </head>
 <body>
-  <h2>Lap Timer ver.Ⅰ</h2>
+  <h2>Lap Timer ver.Ⅲ</h2>
 
   <input type="file" id="fileInput" accept="video/*">
   <br><br>
@@ -256,5 +256,18 @@ function renderLaps() {
     });
     stepBackwardBtn.addEventListener("click", stepBackward);
   </script>
+<div id="instructions">
+  <h3>使い方</h3>
+  <ol>
+    <li><strong>動画を選択</strong>：スマホで撮影した動画をアップロードできます</li>
+    <li><strong>再生／一時停止</strong>：再生ボタンまたは動画をタップ</li>
+    <li><strong>コマ送り・戻し</strong>：→で進む、←で戻る（長押しOK）</li>
+    <li><strong>長押し再生</strong>：<br>
+      再生：2倍速／コマ送り：0.5倍速／動画長押し：0.3倍速
+    </li>
+    <li><strong>ラップ記録</strong>：Lapを押すとタイム記録、差分と共に表示</li>
+    <li><strong>スクロールバー</strong>：任意の再生位置に移動可能</li>
+  </ol>
+</div>
 </body>
 </html>
